@@ -11,18 +11,13 @@ var fourletterword = _.filter(words, word=>word.length === 4)
 
 
 var  x = _.transform(fourletterword,function (acc, word){
-    
    
     var sosed = acc.g[word] = []
-    
-
-
 
     for (var i=0; i<word.length;++i){
     
         var w = word.substr(0,i) + '*' + word.substr(i+1)
    
-        
         var classElements =  acc.helper[w]
         
         if (classElements){
@@ -44,6 +39,7 @@ var  x = _.transform(fourletterword,function (acc, word){
 
 var from = "день"
 var to = "ночь"
+
 function walkGraph(g,start,enter,exit){
     var known ={}
     function walk(node){
@@ -53,23 +49,34 @@ function walkGraph(g,start,enter,exit){
             _.each(g[node],walk)
             exit(node)
         }
+        
     }
     walk(start)
 
 }
 
 function findPath(g,from, to){
-    var path = [] 
+    var path = []
+    var founded = false;
     function enter(node){
-        
+        if (!founded){
+            path.push(node);
+        if (g[node].indexOf(to) >= 0){
+            path.push(to);
+            founded = true;
+            }
+    
+        }   
     }
     function exit(node){
-        
+        if (!founded) {
+        path.length = path.length - 1;
+            }
+        }
+
+        walkGraph(g, from, enter, exit);
+        return path;
     }
-   
-
-}
-
 
 
 console.log(findPath(x.g,from,to))
