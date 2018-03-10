@@ -42,15 +42,34 @@ var  x = _.transform(fourletterword,function (acc, word){
 }, 
 {helper: {}, g :{} })
 
+var from = "день"
+var to = "ночь"
+function walkGraph(g,start,enter,exit){
+    var known ={}
+    function walk(node){
+        if (!known[node]){
+            known[node] = true
+            enter(node)
+            _.each(g[node],walk)
+            exit(node)
+        }
+    }
+    walk(start)
 
-function walkGraph(g,startNode,enter,exit){
-    var stepword = g[startNode]
-    function gdebily(stepword){
+}
+
+function findPath(g,from, to){
+    var path = [] 
+    function enter(node){
         
     }
+    function exit(node){
+        
+    }
+   
 
 }
 
 
 
-console.log(x.g)
+console.log(findPath(x.g,from,to))
